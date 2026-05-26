@@ -34,19 +34,16 @@
             background-repeat: no-repeat;
         }
 
-        /* СВЕТЛАЯ ТЕМА - ФОН БЕЗ ЗАТЕМНЕНИЯ */
         body.light {
             background-image: url("{{ url_for('static', filename='Фон.png') }}");
             color: #1a1c23;
         }
 
-        /* ТЁМНАЯ ТЕМА - ФОН С ЗАТЕМНЕНИЕМ */
         body.dark {
             background-image: url("{{ url_for('static', filename='Фон.png') }}");
             color: #eef2ff;
         }
 
-        /* Затемнение фона только для тёмной темы */
         body.dark::before {
             content: '';
             position: fixed;
@@ -59,13 +56,11 @@
             z-index: 0;
         }
 
-        /* Все блоки с контентом ПОВЕРХ затемнения */
         .header, .hero, .filters, .catalog, .watch-page, .footer {
             position: relative;
             z-index: 10;
         }
 
-        /* ШАПКА */
         body.light .header {
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
@@ -127,7 +122,6 @@
             transform: scale(1.02);
         }
 
-        /* ГЛАВНЫЙ БЛОК - универсальное затемнение для читаемости */
         .hero {
             text-align: center;
             padding: 60px 20px 40px;
@@ -159,7 +153,6 @@
             color: #eef2ff;
         }
 
-        /* ФИЛЬТРЫ */
         .filters {
             max-width: 1400px;
             margin: 20px auto 40px;
@@ -195,7 +188,6 @@
             color: #0a0c10;
         }
 
-        /* КАТАЛОГ */
         .catalog {
             max-width: 1400px;
             margin: 0 auto 60px;
@@ -268,7 +260,6 @@
             gap: 28px;
         }
 
-        /* КАРТОЧКИ ФИЛЬМОВ */
         .movie-card {
             background: #ffffff;
             border-radius: 20px;
@@ -361,7 +352,6 @@
             font-weight: 500;
         }
 
-        /* СТРАНИЦА ПРОСМОТРА */
         .watch-page {
             display: none;
             max-width: 1200px;
@@ -544,7 +534,6 @@
             font-size: 14px;
         }
 
-        /* ПЛЕЕРЫ */
         .players-container {
             margin-top: 32px;
         }
@@ -625,7 +614,6 @@
             font-size: 24px;
         }
 
-        /* ПОДВАЛ */
         .footer {
             margin-top: 60px;
             padding: 40px;
@@ -995,16 +983,38 @@
             seasonSelect.value = currentSeason;
             seasonSelect.onchange = (e) => {
                 currentSeason = parseInt(e.target.value);
+                // Сохраняем при смене сезона
+                localStorage.setItem('lastMovieId', currentMovie.id);
+                localStorage.setItem('lastSeason', currentSeason);
                 loadMoviePlayer();
             };
             buttonsDiv.appendChild(seasonSelect);
         }
     }
 
-    function openMovie(id) {
+    // ==================== СОХРАНЕНИЕ И ВОССТАНОВЛЕНИЕ ФИЛЬМА ====================
+    function restoreLastMovie() {
+        const lastId = localStorage.getItem('lastMovieId');
+        const lastSeason = localStorage.getItem('lastSeason');
+
+        if (lastId) {
+            const movie = moviesData.find(m => m.id === parseInt(lastId));
+            if (movie) {
+                openMovie(parseInt(lastId), lastSeason ? parseInt(lastSeason) : 1);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function openMovie(id, season = 1) {
         currentMovie = moviesData.find(m => m.id === id);
         if (!currentMovie) return;
-        currentSeason = 1;
+        currentSeason = season;
+
+        // Сохраняем в localStorage
+        localStorage.setItem('lastMovieId', id);
+        localStorage.setItem('lastSeason', season);
 
         document.getElementById('catalog').style.display = 'none';
         document.getElementById('watchPage').classList.add('active');
@@ -1028,7 +1038,10 @@
         renderMovies();
     }
 
-    renderMovies();
+    // Восстанавливаем последний открытый фильм или показываем каталог
+    if (!restoreLastMovie()) {
+        renderMovies();
+    }
 </script>
 </body>
 </html>
