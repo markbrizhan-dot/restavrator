@@ -136,6 +136,17 @@
         .player-wrapper:last-child { margin-bottom: 0; }
         .player-container { width: 100%; aspect-ratio: 16 / 9; background: #111; position: relative; overflow: hidden; }
         .player-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        @media (max-width: 768px) {
+            .player-container iframe {
+                position: relative;
+                width: 100%;
+                height: 250px;
+            }
+            .player-container {
+                aspect-ratio: auto;
+                height: auto;
+            }
+        }
         .player-top-buttons { position: absolute; top: 20px; left: 20px; z-index: 20; display: flex; gap: 12px; }
         .season-select { background: rgba(0,0,0,0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 16px; border-radius: 40px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s ease; }
         .season-select:hover { background: var(--gold); color: #0a0c10; border-color: var(--gold); }
@@ -462,8 +473,6 @@
         currentSeason = season;
         localStorage.setItem('lastMovieId', id);
         localStorage.setItem('lastSeason', season);
-        // Добавляем в историю браузера для кнопки "Назад"
-        history.pushState({ movieId: id, season: season }, '', `#movie-${id}`);
         document.getElementById('catalog').style.display = 'none';
         document.getElementById('watchPage').classList.add('active');
         renderMoviePage();
@@ -480,12 +489,17 @@
         document.getElementById('adPlayerWrapper').style.display = 'none';
         renderMovies();
     }
-    // Обработчик кнопки "Назад" в браузере
+    // Обработчик кнопки "Назад" для Яндекс.Браузера
     window.addEventListener('popstate', function(event) {
-        if (document.getElementById('catalog').style.display === 'none') {
+        const lastId = localStorage.getItem('lastMovieId');
+        if (lastId && document.getElementById('catalog').style.display === 'none') {
+            event.preventDefault();
+            event.stopPropagation();
             showCatalog();
             localStorage.removeItem('lastMovieId');
             localStorage.removeItem('lastSeason');
+            history.pushState(null, '', window.location.pathname);
+            return false;
         }
     });
     if (!restoreLastMovie()) {
