@@ -27,7 +27,8 @@ MOVIES = [
         "votes": "3 081",
         "slogan": "—",
         "description": "В далекие времена стада богача Галсана охранял пастух Баир. Однажды увидел он, как гриф схватил чудесную птицу, и спас ее, подстрелив хищника из лука. Закончилась его служба, и захотел он уйти, получив 16 монет, но жадный богач вычел с него за охромевшую кобылу и за сломанный кнут. Пастух не выдержал и огрел негодяя по башке сундуком. Слуги бросили его связанным в ущелье. Вот тогда и прилетела к нему чудесная птица.",
-        "video": "https://youtu.be/9D-PYOqo0T8", "source": "YouTube"
+        "video": "https://youtu.be/9D-PYOqo0T8",
+        "source": "YouTube"
     },
     {
         "id": 2, "type": "cartoon", "title": "Волшебная птица",
@@ -52,7 +53,8 @@ MOVIES = [
         "votes": "1 234",
         "slogan": "—",
         "description": "По мотивам русской народной сказки. Славится Наталья из Озерска не только красотой своей, но и рукоделием. И только тот, кто сравниться сможет с ней в мастерстве, диковинку преподнесет, под венец поведет красавицу.",
-        "video": "https://youtu.be/bySQdGeINfM", "source": "YouTube"
+        "video": "https://youtu.be/bySQdGeINfM",
+        "source": "YouTube"
     },
     {
         "id": 3, "type": "cartoon", "title": "Дядюшка Ау",
@@ -109,7 +111,8 @@ MOVIES = [
         "votes": "0",
         "slogan": "—",
         "description": "Фильм в сказочной форме рассказывает о том, что труд является самым главным объединяющим началом в дружбе людей разных профессий.",
-        "video": "https://youtu.be/fvvHcdMditI", "source": "YouTube"
+        "video": "https://youtu.be/fvvHcdMditI",
+        "source": "YouTube"
     },
     {
         "id": 5, "type": "cartoon", "title": "Высокая горка",
@@ -134,7 +137,8 @@ MOVIES = [
         "votes": "0",
         "slogan": "—",
         "description": "Непутевый воробей Чик вечно втягивает свою Чирику в неприятности. Классический мультфильм по Виталию Бианки.",
-        "video": "https://youtu.be/QJdngyi6OdM", "source": "YouTube"
+        "video": "https://youtu.be/QJdngyi6OdM",
+        "source": "YouTube"
     },
     {
         "id": 6, "type": "series", "title": "Фитиль",
@@ -194,7 +198,7 @@ MOVIES = [
         "votes": "0",
         "slogan": "—",
         "description": "Солдат вызволяет царевну из лап чудища-оборотня. Фантазия на тему народных сказок от режиссёра «Маугли».",
-        "video": "https://vkvideo.ru/video-234885061_456239097",
+        "video": "https://vkvideo.ru/video_ext.php?oid=-234885061&id=456239097&hash=f53e4556405283da",
         "source": "VK Video"
     },
     {
@@ -439,4 +443,4 @@ def index():
     return render_template('index.html', movies=MOVIES, genres=ALL_GENRES)
 
 if __name__ == '__main__':
-    app.run(debug=True, host='127.0.0.1', port=5000)
+    app.run(debug=False, host='0.0.0.0', port=5000)
