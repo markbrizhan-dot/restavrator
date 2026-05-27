@@ -5,26 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Реставратор — отреставрированные советские мультфильмы и фильмы</title>
     
-    <!-- ========== ВЕРИФИКАЦИЯ ПОИСКОВИКОВ ========== -->
     <meta name="yandex-verification" content="d50694bf34e0cd5a" />
     <meta name="google-site-verification" content="dlei2cjntSUL6lFALHvC_ELGI2bNGNgBOoAOlncXoSc" />
     
-    <!-- ========== FAVICON ========== -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Логотип.png') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Логотип.png') }}">
     <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='Логотип.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='Логотип.png') }}">
     <link rel="apple-touch-icon" href="{{ url_for('static', filename='Логотип.png') }}">
     
-    <!-- ========== SEO МЕТА-ТЕГИ ========== -->
-    <meta name="description" content="Реставратор — отреставрированные советские мультфильмы и фильмы в отличном качестве. Волшебный клад, Высокая горка, Падал прошлогодний снег, Дядюшка Ау и другие шедевры советской анимации.">
-    <meta name="keywords" content="Реставратор, реставратор, реставрация фильмов, реставрация мультфильмов, советские мультфильмы, Волшебный клад, Высокая горка, Падал прошлогодний снег, Дядюшка Ау">
+    <meta name="description" content="Реставратор — отреставрированные советские мультфильмы и фильмы в отличном качестве.">
+    <meta name="keywords" content="Реставратор, реставрация фильмов, советские мультфильмы">
     <meta name="author" content="Реставратор">
     <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <meta name="yandex" content="index, follow">
     
-    <!-- ========== OPEN GRAPH ========== -->
     <meta property="og:title" content="Реставратор — отреставрированные советские мультфильмы">
     <meta property="og:description" content="Реставратор - сайт с отреставрированными советскими мультфильмами.">
     <meta property="og:image" content="{{ url_for('static', filename='Логотип.png') }}">
@@ -33,13 +27,11 @@
     <meta property="og:site_name" content="Реставратор">
     <meta property="og:locale" content="ru_RU">
     
-    <!-- ========== TWITTER CARD ========== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Реставратор — отреставрированные советские мультфильмы">
     <meta name="twitter:description" content="Любимые советские мультфильмы в отличном качестве.">
     <meta name="twitter:image" content="{{ url_for('static', filename='Логотип.png') }}">
     
-    <!-- ========== CANONICAL URL ========== -->
     <link rel="canonical" href="https://restavrator.onrender.com">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -600,7 +592,6 @@
             margin-bottom: 0;
         }
 
-        /* УНИВЕРСАЛЬНЫЙ ПЛЕЕР */
         .player-container {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -683,7 +674,6 @@
             color: #eef2ff;
         }
 
-        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .movie-poster { height: 180px; }
@@ -1017,7 +1007,7 @@
         return match ? match[1] : null;
     }
 
-    // ========== ИСПРАВЛЕНА ТОЛЬКО ФУНКЦИЯ ДЛЯ GOOGLE ДИСКА ==========
+    // ========== ИСПРАВЛЕННАЯ ФУНКЦИЯ ДЛЯ GOOGLE ДИСКА ==========
     function loadMoviePlayer() {
         const container = document.getElementById('moviePlayer');
         
@@ -1027,37 +1017,28 @@
             videoUrl = currentMovie.seasons[currentSeason].video_url;
         }
         
-        // VK Video (НЕ ТРОГАЕМ)
+        // VK Video
         if (videoUrl && videoUrl.includes('vkvideo.ru/video_ext.php')) {
             container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture" style="width:100%; height:100%; border:none;"></iframe>`;
             return;
         }
         
-        // GOOGLE ДИСК - ИСПРАВЛЕНО
+        // Google Диск - ПОЛНОСТЬЮ ИСПРАВЛЕНО
         if (videoUrl && videoUrl.includes('drive.google.com')) {
             let embedUrl = videoUrl;
             const match = videoUrl.match(/\/file\/d\/([^\/]+)/);
             if (match) {
                 embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
             }
-            container.innerHTML = '';
-            const iframe = document.createElement('iframe');
-            iframe.src = embedUrl;
-            iframe.allowFullscreen = true;
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.border = 'none';
-            iframe.style.position = 'absolute';
-            iframe.style.top = '0';
-            iframe.style.left = '0';
-            container.appendChild(iframe);
+            // Создаём iframe и вставляем
+            container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen style="width:100%; height:100%; border:none; position:absolute; top:0; left:0;"></iframe>`;
             container.style.position = 'relative';
             container.style.width = '100%';
-            container.style.aspectRatio = '16 / 9';
+            container.style.aspectRatio = '16/9';
             return;
         }
         
-        // YouTube (НЕ ТРОГАЕМ)
+        // YouTube
         const id = getYouTubeId(videoUrl);
         if (id) {
             container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=1&rel=0" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
