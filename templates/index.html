@@ -4,52 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Реставратор — отреставрированные советские мультфильмы и фильмы</title>
-
-    <!-- Яндекс верификация для Вебмастера -->
+    
+    <!-- ========== ВЕРИФИКАЦИЯ ПОИСКОВИКОВ ========== -->
     <meta name="yandex-verification" content="d50694bf34e0cd5a" />
-
-    <!-- ========== FAVICON - ЛОГОТИП НА ВКЛАДКЕ ========== -->
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Логотип.png') }}">
+    <meta name="google-site-verification" content="google3077b48ec0486fbd" />
+    
+    <!-- ========== FAVICON ========== -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Логотип.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='Логотип.png') }}">
+    <link rel="icon" type="image/png" sizes="64x64" href="{{ url_for('static', filename='Логотип.png') }}">
     <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='Логотип.png') }}">
-
-    <!-- ========== ОСНОВНЫЕ SEO МЕТА-ТЕГИ ========== -->
-    <meta name="description" content="Реставратор — отреставрированные советские мультфильмы и фильмы в отличном качестве. Волшебный клад, Высокая горка, Падал прошлогодний снег, Дядюшка Ау и другие шедевры советской анимации. Реставрация старых фильмов.">
-    <meta name="keywords" content="Реставратор, реставратор, РЕСТАВРАТОР, Restavrator, restavrator, реставрация фильмов, реставрация мультфильмов, отреставрированные фильмы, советские мультфильмы, старые мультфильмы, Волшебный клад, Высокая горка, Падал прошлогодний снег, Дядюшка Ау, советское кино, Союзмультфильм, восстановленные фильмы, качественная реставрация, старые фильмы в хорошем качестве">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='Логотип.png') }}">
+    
+    <!-- ========== SEO МЕТА-ТЕГИ ========== -->
+    <meta name="description" content="Реставратор — отреставрированные советские мультфильмы и фильмы в отличном качестве. Волшебный клад, Высокая горка, Падал прошлогодний снег, Дядюшка Ау и другие шедевры советской анимации.">
+    <meta name="keywords" content="Реставратор, реставратор, реставрация фильмов, реставрация мультфильмов, советские мультфильмы, Волшебный клад, Высокая горка, Падал прошлогодний снег, Дядюшка Ау">
     <meta name="author" content="Реставратор">
     <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow">
     <meta name="yandex" content="index, follow">
-
-    <!-- ========== АЛЬТЕРНАТИВНЫЕ ЗАГОЛОВКИ ДЛЯ ПОИСКА ========== -->
-    <meta name="title" content="Реставратор | Отреставрированные советские мультфильмы">
-    <meta name="alternative-headline" content="Реставрация советской анимации - лучшие мультфильмы в восстановленном качестве">
-
-    <!-- ========== OPEN GRAPH ДЛЯ СОЦИАЛЬНЫХ СЕТЕЙ ========== -->
+    
+    <!-- ========== OPEN GRAPH ========== -->
     <meta property="og:title" content="Реставратор — отреставрированные советские мультфильмы">
-    <meta property="og:description" content="Реставратор - сайт с отреставрированными советскими мультфильмами. Волшебный клад, Высокая горка и другие шедевры в отличном качестве. Реставрация старых фильмов.">
+    <meta property="og:description" content="Реставратор - сайт с отреставрированными советскими мультфильмами.">
     <meta property="og:image" content="{{ url_for('static', filename='Логотип.png') }}">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://restavrator.onrender.com">
     <meta property="og:site_name" content="Реставратор">
     <meta property="og:locale" content="ru_RU">
-
+    
     <!-- ========== TWITTER CARD ========== -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Реставратор — отреставрированные советские мультфильмы">
-    <meta name="twitter:description" content="Любимые советские мультфильмы в отличном качестве. Реставрация классики кинематографа.">
+    <meta name="twitter:description" content="Любимые советские мультфильмы в отличном качестве.">
     <meta name="twitter:image" content="{{ url_for('static', filename='Логотип.png') }}">
-
-    <!-- ========== ДОПОЛНИТЕЛЬНЫЕ МЕТА-ТЕГИ ========== -->
-    <meta name="DC.title" content="Реставратор - советские мультфильмы">
-    <meta name="DC.description" content="Отреставрированные советские мультфильмы в высоком качестве">
-    <meta name="DC.language" content="ru">
-    <meta name="geo.region" content="RU">
-    <meta name="language" content="Russian">
-
+    
     <!-- ========== CANONICAL URL ========== -->
     <link rel="canonical" href="https://restavrator.onrender.com">
-
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -76,8 +68,21 @@
             overflow-x: hidden;
             background-size: cover;
             background-position: center;
-            background-attachment: fixed;
             background-repeat: no-repeat;
+        }
+
+        /* ФИКСИРОВАННЫЙ ФОН ТОЛЬКО ДЛЯ ПК (чтобы не прыгал на телефонах) */
+        @media (min-width: 1024px) {
+            body {
+                background-attachment: fixed;
+            }
+        }
+
+        /* ДЛЯ ТЕЛЕФОНОВ - БЕЗ ФИКСАЦИИ (фон не прыгает) */
+        @media (max-width: 1023px) {
+            body {
+                background-attachment: scroll;
+            }
         }
 
         body.light {
@@ -89,7 +94,7 @@
             background-image: url("{{ url_for('static', filename='Фон.png') }}");
             color: #eef2ff;
         }
-
+        
         body.dark::before {
             content: '';
             position: fixed;
@@ -601,24 +606,17 @@
             width: 100%;
             aspect-ratio: 16 / 9;
             background: #111;
+            position: relative;
             overflow: hidden;
         }
 
         .player-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             border: none;
-        }
-
-        /* ========== ИСПРАВЛЕНИЕ ДЛЯ GOOGLE ДИСК НА ТЕЛЕФОНАХ ========== */
-        @media (max-width: 768px) {
-            .player-container {
-                min-height: 250px;
-            }
-
-            .player-container iframe {
-                min-height: 250px;
-            }
         }
 
         .player-top-buttons {
@@ -699,35 +697,34 @@
             .detail-label { min-width: 110px; }
             .hero { margin: 20px; padding: 30px 20px; }
             .logo img { height: 40px; }
-
+            
             .movies-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
-
+            
             .movie-info {
                 padding: 10px;
             }
-
+            
             .movie-title {
                 font-size: 14px;
             }
-
+            
             .movie-meta {
                 font-size: 11px;
             }
-
+            
             .age-badge {
                 font-size: 9px;
                 padding: 2px 6px;
             }
-
+            
             .type-badge {
                 font-size: 9px;
                 padding: 2px 8px;
             }
-
-            /* Исправление для Google Диска */
+            
             .player-container {
                 min-height: 250px;
             }
@@ -737,23 +734,23 @@
             .movies-grid {
                 gap: 10px;
             }
-
+            
             .movie-poster {
                 height: 160px;
             }
-
+            
             .movie-title {
                 font-size: 12px;
             }
-
+            
             .movie-meta {
                 font-size: 10px;
             }
-
+            
             .movie-info {
                 padding: 8px;
             }
-
+            
             .player-container {
                 min-height: 220px;
             }
@@ -764,7 +761,7 @@
                 grid-template-columns: repeat(3, 1fr);
                 gap: 16px;
             }
-
+            
             .movie-poster {
                 height: 220px;
             }
@@ -875,17 +872,13 @@
     <p style="margin-top: 8px; font-size: 12px;">Любимые фильмы, сериалы и мультфильмы в отличном качестве</p>
 </footer>
 
-<!-- ========== JSON-LD ДЛЯ ПОИСКОВИКОВ ========== -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "Реставратор",
-  "alternateName": ["реставратор", "РЕСТАВРАТОР", "Restavrator", "restavrator", "Реставратор фильмы", "Реставратор мультфильмы"],
   "url": "https://restavrator.onrender.com",
-  "description": "Отреставрированные советские мультфильмы и фильмы. Реставрация классики советского кинематографа. Волшебный клад, Высокая горка, Падал прошлогодний снег и другие шедевры.",
-  "inLanguage": "ru",
-  "keywords": "реставрация фильмов, восстановление мультфильмов, советские мультфильмы, отреставрированное кино, старые фильмы в хорошем качестве"
+  "description": "Отреставрированные советские мультфильмы и фильмы."
 }
 </script>
 
@@ -968,7 +961,7 @@
         const showNewYear = isNewYearSeason();
         const newYearSection = document.getElementById('newYearSection');
         const newYearGrid = document.getElementById('newYearGrid');
-
+        
         if (showNewYear) {
             const newYearMovies = moviesData.filter(m => m.is_new_year === true);
             if (newYearMovies.length > 0) {
@@ -1031,38 +1024,35 @@
 
     function loadMoviePlayer() {
         const container = document.getElementById('moviePlayer');
-
+        
         let videoUrl = currentMovie.video;
-
+        
         if (currentMovie.seasons && currentMovie.seasons[currentSeason] && currentMovie.seasons[currentSeason].video_url) {
             videoUrl = currentMovie.seasons[currentSeason].video_url;
         }
-
-        // VK Video
+        
         if (videoUrl && videoUrl.includes('vkvideo.ru/video_ext.php')) {
-            container.innerHTML = `<iframe src="${videoUrl}" width="100%" height="100%" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+            container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
             return;
         }
-
-        // Google Диск - исправлен для мобильных устройств
+        
         if (videoUrl && videoUrl.includes('drive.google.com')) {
             let embedUrl = videoUrl;
             const match = videoUrl.match(/\/file\/d\/([^\/]+)/);
             if (match) {
                 embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
             }
-            container.innerHTML = `<iframe src="${embedUrl}" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>`;
+            container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
             return;
         }
-
-        // YouTube
+        
         const id = getYouTubeId(videoUrl);
         if (id) {
             container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=1&rel=0" allowfullscreen></iframe>`;
-        }
-        else if (videoUrl && (videoUrl.includes('youtu.be') || videoUrl.includes('youtube.com') || videoUrl.includes('vk.com'))) {
+        } 
+        else if (videoUrl && (videoUrl.includes('youtu.be') || videoUrl.includes('youtube.com'))) {
             container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen></iframe>`;
-        }
+        } 
         else {
             container.innerHTML = `
                 <div class="error-message">
@@ -1077,7 +1067,7 @@
     function loadAdPlayer() {
         const adContainer = document.getElementById('adPlayer');
         const adWrapper = document.getElementById('adPlayerWrapper');
-
+        
         if (currentMovie.id === 8 && currentMovie.ad_video) {
             const adId = getYouTubeId(currentMovie.ad_video);
             if (adId) {
@@ -1086,7 +1076,7 @@
                 return;
             }
         }
-
+        
         adWrapper.style.display = 'none';
         adContainer.innerHTML = '';
     }
@@ -1143,9 +1133,9 @@
     function updateTopButtons() {
         const buttonsDiv = document.getElementById('playerTopButtons');
         buttonsDiv.innerHTML = '';
-
+        
         if (currentMovie.id === 12) return;
-
+        
         if (currentMovie.seasons) {
             const seasonSelect = document.createElement('select');
             seasonSelect.className = 'season-select';
@@ -1166,11 +1156,10 @@
         }
     }
 
-    // ==================== СОХРАНЕНИЕ ПОСЛЕДНЕГО ФИЛЬМА ====================
     function restoreLastMovie() {
         const lastId = localStorage.getItem('lastMovieId');
         const lastSeason = localStorage.getItem('lastSeason');
-
+        
         if (lastId) {
             const movie = moviesData.find(m => m.id === parseInt(lastId));
             if (movie) {
@@ -1185,8 +1174,7 @@
         currentMovie = moviesData.find(m => m.id === id);
         if (!currentMovie) return;
         currentSeason = season;
-
-        // Сохраняем в localStorage
+        
         localStorage.setItem('lastMovieId', id);
         localStorage.setItem('lastSeason', season);
 
@@ -1212,7 +1200,6 @@
         renderMovies();
     }
 
-    // Восстанавливаем последний открытый фильм или показываем каталог
     if (!restoreLastMovie()) {
         renderMovies();
     }
