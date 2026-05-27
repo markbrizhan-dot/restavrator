@@ -600,38 +600,22 @@
             margin-bottom: 0;
         }
 
+        /* УНИВЕРСАЛЬНЫЙ ПЛЕЕР - РАБОТАЕТ ДЛЯ ВСЕХ (YouTube, VK, Google Диск) */
         .player-container {
             width: 100%;
+            aspect-ratio: 16 / 9;
             background: #111;
             position: relative;
             overflow: hidden;
         }
 
-        @media (min-width: 769px) {
-            .player-container {
-                aspect-ratio: 16 / 9;
-            }
-            
-            .player-container iframe {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .player-container {
-                min-height: 250px;
-            }
-            
-            .player-container iframe {
-                width: 100%;
-                height: 250px;
-                border: none;
-            }
+        .player-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         .player-top-buttons {
@@ -699,6 +683,7 @@
             color: #eef2ff;
         }
 
+        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .movie-poster { height: 180px; }
@@ -737,6 +722,10 @@
             .type-badge {
                 font-size: 9px;
                 padding: 2px 8px;
+            }
+
+            .player-container {
+                aspect-ratio: 16 / 9;
             }
         }
 
@@ -1037,28 +1026,24 @@
             videoUrl = currentMovie.seasons[currentSeason].video_url;
         }
         
+        // VK Video
         if (videoUrl && videoUrl.includes('vkvideo.ru/video_ext.php')) {
             container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture" style="width:100%; height:100%; border:none;"></iframe>`;
             return;
         }
         
+        // Google Диск
         if (videoUrl && videoUrl.includes('drive.google.com')) {
             let embedUrl = videoUrl;
             const match = videoUrl.match(/\/file\/d\/([^\/]+)/);
             if (match) {
                 embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
             }
-            container.innerHTML = '';
-            const iframe = document.createElement('iframe');
-            iframe.src = embedUrl;
-            iframe.allowFullscreen = true;
-            iframe.style.width = '100%';
-            iframe.style.height = '100%';
-            iframe.style.border = 'none';
-            container.appendChild(iframe);
+            container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
             return;
         }
         
+        // YouTube
         const id = getYouTubeId(videoUrl);
         if (id) {
             container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=1&rel=0" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
@@ -1191,8 +1176,6 @@
         localStorage.setItem('lastMovieId', id);
         localStorage.setItem('lastSeason', season);
         
-        history.pushState({ movieId: id, season: season }, '', `#movie-${id}`);
-        
         document.getElementById('catalog').style.display = 'none';
         document.getElementById('watchPage').classList.add('active');
         
@@ -1214,15 +1197,6 @@
         document.getElementById('adPlayerWrapper').style.display = 'none';
         renderMovies();
     }
-
-    // Обработчик кнопки "Назад" (работает на ПК и телефонах)
-    window.addEventListener('popstate', function(event) {
-        if (document.getElementById('catalog').style.display === 'none') {
-            showCatalog();
-            localStorage.removeItem('lastMovieId');
-            localStorage.removeItem('lastSeason');
-        }
-    });
 
     if (!restoreLastMovie()) {
         renderMovies();
