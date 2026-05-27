@@ -600,7 +600,7 @@
             margin-bottom: 0;
         }
 
-        /* УНИВЕРСАЛЬНЫЙ ПЛЕЕР - РАБОТАЕТ ДЛЯ ВСЕХ (YouTube, VK, Google Диск) */
+        /* УНИВЕРСАЛЬНЫЙ ПЛЕЕР */
         .player-container {
             width: 100%;
             aspect-ratio: 16 / 9;
@@ -1017,6 +1017,7 @@
         return match ? match[1] : null;
     }
 
+    // ========== ИСПРАВЛЕНА ТОЛЬКО ФУНКЦИЯ ДЛЯ GOOGLE ДИСКА ==========
     function loadMoviePlayer() {
         const container = document.getElementById('moviePlayer');
         
@@ -1026,24 +1027,37 @@
             videoUrl = currentMovie.seasons[currentSeason].video_url;
         }
         
-        // VK Video
+        // VK Video (НЕ ТРОГАЕМ)
         if (videoUrl && videoUrl.includes('vkvideo.ru/video_ext.php')) {
             container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture" style="width:100%; height:100%; border:none;"></iframe>`;
             return;
         }
         
-        // Google Диск
+        // GOOGLE ДИСК - ИСПРАВЛЕНО
         if (videoUrl && videoUrl.includes('drive.google.com')) {
             let embedUrl = videoUrl;
             const match = videoUrl.match(/\/file\/d\/([^\/]+)/);
             if (match) {
                 embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
             }
-            container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
+            container.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            iframe.src = embedUrl;
+            iframe.allowFullscreen = true;
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+            iframe.style.position = 'absolute';
+            iframe.style.top = '0';
+            iframe.style.left = '0';
+            container.appendChild(iframe);
+            container.style.position = 'relative';
+            container.style.width = '100%';
+            container.style.aspectRatio = '16 / 9';
             return;
         }
         
-        // YouTube
+        // YouTube (НЕ ТРОГАЕМ)
         const id = getYouTubeId(videoUrl);
         if (id) {
             container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=1&rel=0" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
