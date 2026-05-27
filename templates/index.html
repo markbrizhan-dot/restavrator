@@ -7,7 +7,7 @@
     
     <!-- ========== ВЕРИФИКАЦИЯ ПОИСКОВИКОВ ========== -->
     <meta name="yandex-verification" content="d50694bf34e0cd5a" />
-    <meta name="google-site-verification" content="google3077b48ec0486fbd" />
+    <meta name="google-site-verification" content="dlei2cjntSUL6lFALHvC_ELGI2bNGNgBOoAOlncXoSc" />
     
     <!-- ========== FAVICON ========== -->
     <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='Логотип.png') }}">
@@ -71,14 +71,12 @@
             background-repeat: no-repeat;
         }
 
-        /* ФИКСИРОВАННЫЙ ФОН ТОЛЬКО ДЛЯ ПК (чтобы не прыгал на телефонах) */
         @media (min-width: 1024px) {
             body {
                 background-attachment: fixed;
             }
         }
 
-        /* ДЛЯ ТЕЛЕФОНОВ - БЕЗ ФИКСАЦИИ (фон не прыгает) */
         @media (max-width: 1023px) {
             body {
                 background-attachment: scroll;
@@ -602,21 +600,41 @@
             margin-bottom: 0;
         }
 
+        /* ========== ИСПРАВЛЕННЫЙ ПЛЕЕР ДЛЯ GOOGLE ДИСКА ========== */
         .player-container {
             width: 100%;
-            aspect-ratio: 16 / 9;
             background: #111;
             position: relative;
             overflow: hidden;
         }
 
-        .player-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
+        /* Для компьютеров - соотношение 16:9 */
+        @media (min-width: 769px) {
+            .player-container {
+                aspect-ratio: 16 / 9;
+            }
+            
+            .player-container iframe {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+        }
+
+        /* Для телефонов - фиксированная высота */
+        @media (max-width: 768px) {
+            .player-container {
+                min-height: 250px;
+            }
+            
+            .player-container iframe {
+                width: 100%;
+                height: 250px;
+                border: none;
+            }
         }
 
         .player-top-buttons {
@@ -724,10 +742,6 @@
                 font-size: 9px;
                 padding: 2px 8px;
             }
-            
-            .player-container {
-                min-height: 250px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -749,10 +763,6 @@
             
             .movie-info {
                 padding: 8px;
-            }
-            
-            .player-container {
-                min-height: 220px;
             }
         }
 
@@ -1022,6 +1032,7 @@
         return match ? match[1] : null;
     }
 
+    // ========== ИСПРАВЛЕННАЯ ФУНКЦИЯ ДЛЯ GOOGLE ДИСКА ==========
     function loadMoviePlayer() {
         const container = document.getElementById('moviePlayer');
         
@@ -1031,27 +1042,37 @@
             videoUrl = currentMovie.seasons[currentSeason].video_url;
         }
         
+        // VK Video
         if (videoUrl && videoUrl.includes('vkvideo.ru/video_ext.php')) {
-            container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+            container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture" style="width:100%; height:100%; border:none;"></iframe>`;
             return;
         }
         
+        // GOOGLE ДИСК - ИСПРАВЛЕНО (создаём iframe через JS)
         if (videoUrl && videoUrl.includes('drive.google.com')) {
             let embedUrl = videoUrl;
             const match = videoUrl.match(/\/file\/d\/([^\/]+)/);
             if (match) {
                 embedUrl = `https://drive.google.com/file/d/${match[1]}/preview`;
             }
-            container.innerHTML = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
+            container.innerHTML = '';
+            const iframe = document.createElement('iframe');
+            iframe.src = embedUrl;
+            iframe.allowFullscreen = true;
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+            container.appendChild(iframe);
             return;
         }
         
+        // YouTube
         const id = getYouTubeId(videoUrl);
         if (id) {
-            container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=1&rel=0" allowfullscreen></iframe>`;
+            container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=1&rel=0" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
         } 
         else if (videoUrl && (videoUrl.includes('youtu.be') || videoUrl.includes('youtube.com'))) {
-            container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen></iframe>`;
+            container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
         } 
         else {
             container.innerHTML = `
@@ -1072,7 +1093,7 @@
             const adId = getYouTubeId(currentMovie.ad_video);
             if (adId) {
                 adWrapper.style.display = 'block';
-                adContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${adId}?autoplay=1&controls=1&rel=0" allowfullscreen></iframe>`;
+                adContainer.innerHTML = `<iframe src="https://www.youtube.com/embed/${adId}?autoplay=1&controls=1&rel=0" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
                 return;
             }
         }
