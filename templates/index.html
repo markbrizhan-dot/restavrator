@@ -600,7 +600,6 @@
             margin-bottom: 0;
         }
 
-        /* ========== ИСПРАВЛЕННЫЙ ПЛЕЕР ДЛЯ GOOGLE ДИСКА ========== */
         .player-container {
             width: 100%;
             background: #111;
@@ -608,7 +607,6 @@
             overflow: hidden;
         }
 
-        /* Для компьютеров - соотношение 16:9 */
         @media (min-width: 769px) {
             .player-container {
                 aspect-ratio: 16 / 9;
@@ -624,7 +622,6 @@
             }
         }
 
-        /* Для телефонов - фиксированная высота */
         @media (max-width: 768px) {
             .player-container {
                 min-height: 250px;
@@ -702,7 +699,6 @@
             color: #eef2ff;
         }
 
-        /* ========== МОБИЛЬНАЯ АДАПТАЦИЯ ========== */
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .movie-poster { height: 180px; }
@@ -1032,7 +1028,6 @@
         return match ? match[1] : null;
     }
 
-    // ========== ИСПРАВЛЕННАЯ ФУНКЦИЯ ДЛЯ GOOGLE ДИСКА ==========
     function loadMoviePlayer() {
         const container = document.getElementById('moviePlayer');
         
@@ -1042,13 +1037,11 @@
             videoUrl = currentMovie.seasons[currentSeason].video_url;
         }
         
-        // VK Video
         if (videoUrl && videoUrl.includes('vkvideo.ru/video_ext.php')) {
             container.innerHTML = `<iframe src="${videoUrl}" allowfullscreen allow="autoplay; encrypted-media; fullscreen; picture-in-picture" style="width:100%; height:100%; border:none;"></iframe>`;
             return;
         }
         
-        // GOOGLE ДИСК - ИСПРАВЛЕНО (создаём iframe через JS)
         if (videoUrl && videoUrl.includes('drive.google.com')) {
             let embedUrl = videoUrl;
             const match = videoUrl.match(/\/file\/d\/([^\/]+)/);
@@ -1066,7 +1059,6 @@
             return;
         }
         
-        // YouTube
         const id = getYouTubeId(videoUrl);
         if (id) {
             container.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&controls=1&rel=0" allowfullscreen style="width:100%; height:100%; border:none;"></iframe>`;
@@ -1198,15 +1190,17 @@
         
         localStorage.setItem('lastMovieId', id);
         localStorage.setItem('lastSeason', season);
-
+        
+        history.pushState({ movieId: id, season: season }, '', `#movie-${id}`);
+        
         document.getElementById('catalog').style.display = 'none';
         document.getElementById('watchPage').classList.add('active');
-
+        
         renderMoviePage();
         updateTopButtons();
         loadMoviePlayer();
         loadAdPlayer();
-
+        
         setTimeout(() => {
             document.querySelector('.watch-page').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
@@ -1220,6 +1214,15 @@
         document.getElementById('adPlayerWrapper').style.display = 'none';
         renderMovies();
     }
+
+    // Обработчик кнопки "Назад" (работает на ПК и телефонах)
+    window.addEventListener('popstate', function(event) {
+        if (document.getElementById('catalog').style.display === 'none') {
+            showCatalog();
+            localStorage.removeItem('lastMovieId');
+            localStorage.removeItem('lastSeason');
+        }
+    });
 
     if (!restoreLastMovie()) {
         renderMovies();
