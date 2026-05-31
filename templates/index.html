@@ -165,8 +165,41 @@
         .season-select:hover { background: var(--gold); color: #0a0c10; border-color: var(--gold); }
         .error-message { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 20px; padding: 40px; background: #111; color: white; }
         .error-message i { font-size: 70px; color: var(--gold); }
-        .footer { margin-top: 60px; padding: 40px; text-align: center; background: rgba(0,0,0,0.5); backdrop-filter: blur(10px); border-top: 1px solid rgba(196,154,108,0.3); color: rgba(255,255,255,0.9); }
+        
+        /* ПОДВАЛ С ПРИПИСКОЙ */
+        .footer {
+            margin-top: 60px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(196,154,108,0.3);
+            color: rgba(255,255,255,0.9);
+        }
         body.dark .footer { color: #eef2ff; }
+        
+        .footer .copyright {
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .footer .disclaimer {
+            font-size: 11px;
+            opacity: 0.6;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+        
+        .footer .disclaimer a {
+            color: var(--gold);
+            text-decoration: none;
+        }
+        
+        .footer .disclaimer a:hover {
+            text-decoration: underline;
+        }
+        
         @media (max-width: 768px) {
             .hero h1 { font-size: 36px; }
             .movie-poster { height: 180px; }
@@ -186,6 +219,7 @@
             .movie-meta { font-size: 11px; }
             .age-badge { font-size: 9px; padding: 2px 6px; }
             .type-badge { font-size: 9px; padding: 2px 8px; }
+            .footer .disclaimer { font-size: 9px; }
         }
         @media (max-width: 480px) {
             .movies-grid { gap: 10px; }
@@ -268,8 +302,14 @@
 </div>
 
 <footer class="footer">
-    <p><i class="fas fa-camera-retro"></i> Реставратор</p>
-    <p style="margin-top: 8px; font-size: 12px;">Любимые фильмы, сериалы и мультфильмы в отличном качестве</p>
+    <p class="copyright"><i class="fas fa-camera-retro"></i> Реставратор</p>
+    <p class="disclaimer">
+        Все видео и материалы предоставлены исключительно для ознакомления. 
+        Все права принадлежат их правообладателям. Сайт не присваивает авторские права на представленный контент. 
+        Источники: <a href="https://www.youtube.com/" target="_blank">YouTube</a>, <a href="https://vk.com/video" target="_blank">VK Видео</a>, 
+        материалы взяты из открытых источников. При возникновении претензий со стороны правообладателей, 
+        контент будет незамедлительно удалён.
+    </p>
 </footer>
 
 <script>
