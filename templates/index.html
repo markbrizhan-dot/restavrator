@@ -447,16 +447,22 @@
         }
     }
     
-    // Функция для полного сброса и выхода на главную
-    function resetAndGoHome() {
-        // Очищаем localStorage
+    // При закрытии вкладки или браузера - ОЧИЩАЕМ сохранённые данные
+    window.addEventListener('beforeunload', function() {
         localStorage.removeItem('lastMovieId');
         localStorage.removeItem('lastSeason');
-        // Показываем каталог
-        showCatalog();
-        // Очищаем историю браузера
-        history.pushState(null, '', window.location.pathname);
-    }
+    });
+    
+    // Обработчик кнопки "Назад" в браузере
+    window.addEventListener('popstate', function(event) {
+        if (document.getElementById('catalog').style.display === 'none') {
+            showCatalog();
+            history.pushState(null, '', window.location.pathname);
+            return false;
+        }
+    });
+    
+    history.replaceState(null, '', window.location.pathname);
     
     function restoreLastMovie() {
         const lastId = localStorage.getItem('lastMovieId');
@@ -476,6 +482,7 @@
         currentSeason = season;
         localStorage.setItem('lastMovieId', id);
         localStorage.setItem('lastSeason', season);
+        history.pushState({ page: 'movie', id: id }, '', `#movie-${id}`);
         document.getElementById('catalog').style.display = 'none';
         document.getElementById('watchPage').classList.add('active');
         renderMoviePage();
@@ -492,13 +499,6 @@
         document.getElementById('adPlayerWrapper').style.display = 'none';
         renderMovies();
     }
-    
-    // Закрытие/выход из сайта - очищаем всё и показываем главную
-    window.addEventListener('beforeunload', function() {
-        // Не очищаем, чтобы при перезагрузке оставался фильм
-    });
-    
-    // При загрузке страницы проверяем, нужно ли восстановить фильм
     if (!restoreLastMovie()) {
         renderMovies();
     }
